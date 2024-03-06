@@ -17,7 +17,7 @@ export const useAuth = async () => {
   };
 
   try {
-    const isAuth = await Axios.get("/admin/is-auth", { headers });
+    const isAuth = await Axios.get("/auth/admin/is-auth", { headers });
 
     const data = await isAuth.data;
 

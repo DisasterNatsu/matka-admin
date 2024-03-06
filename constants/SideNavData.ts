@@ -19,14 +19,14 @@ export const SideNavData = [
     icon: MdOutlineLibraryBooks,
   },
   {
-    title: "Update New Data",
-    link: "/update",
+    title: "Tips",
+    link: "/tips",
     icon: MdAccountBalance,
     gap: true,
   },
   {
-    title: "Reports",
-    link: "/reports",
+    title: "Generated Tips",
+    link: "/generated-tips",
     icon: MdOutlineBugReport,
   },
   {

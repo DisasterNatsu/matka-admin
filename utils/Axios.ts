@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const Axios = axios.create({
-  baseURL: "https://api.kolkataff.space",
+  baseURL: "http://localhost:8080",
   timeout: 50000,
 });

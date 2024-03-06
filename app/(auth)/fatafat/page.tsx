@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/shared/Header";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,20 +16,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { DateFormatter } from "@/components/helpers/DateFormatter";
 import { Axios } from "@/utils/Axios";
+import { GameIndex } from "@/constants/GameIndex";
 
 const formSchema = z.object({
-  gameNumber: z.string({ required_error: "You must select game number" }),
   gameResultPatti: z
     .string()
     .min(3, { message: "Patti number but be 3 characters" }),
@@ -39,6 +32,8 @@ const formSchema = z.object({
 });
 
 const Fatafat = () => {
+  const [gameIndex, setGameIndex] = useState<string>("");
+
   // define form element
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,6 +47,14 @@ const Fatafat = () => {
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     const formattedDate = DateFormatter();
 
+    if (!gameIndex) {
+      return toast({
+        title: "Something went wrong",
+        description: "Please select a game index",
+        variant: "destructive",
+      });
+    }
+
     // get token
 
     try {
@@ -64,23 +67,25 @@ const Fatafat = () => {
       };
 
       const data = {
-        gameNumber: value.gameNumber,
         date: formattedDate,
-        gameResultPatti: value.gameResultPatti,
-        gameResultNumber: value.gameResultNumber,
+        data: {
+          gameResultPatti: value.gameResultPatti,
+          gameNumber: value.gameResultNumber,
+        },
+        indexAt: gameIndex,
       };
 
-      const postData = await Axios.post("/admin/add-new", data, { headers });
+      const postData = await Axios.post("/post/add-new", data, { headers });
 
       const response = await postData.data;
 
-      console.log(response);
-
       toast({
-        title: "You submitted the following values:",
+        title: "Uploaded Successfully",
         description: (
           <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(value, null, 2)}</code>
+            <code className="text-white">
+              {JSON.stringify(response, null, 2)}
+            </code>
           </pre>
         ),
       });
@@ -98,42 +103,25 @@ const Fatafat = () => {
     <div>
       <Header title="Fatafat" />
       <div className="flex flex-col items-center justify-center">
+        <div className="flex justify-center items-center gap-3 container my-10 flex-wrap ">
+          {GameIndex.map((item: string, index: number) => (
+            <button
+              key={item}
+              className={`text-sm rounded-md font-semibold px-2 py-1 md:text-2xl md:px-10 uppercase md:py-2 ${
+                item === gameIndex ? "bg-green-500 text-black" : "bg-slate-500"
+              }`}
+              onClick={() => setGameIndex(item)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-2/3 space-y-6"
           >
-            <FormField
-              control={form.control}
-              name="gameNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a Game Number" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="one">one</SelectItem>
-                      <SelectItem value="two">two</SelectItem>
-                      <SelectItem value="three">three</SelectItem>
-                      <SelectItem value="four">four</SelectItem>
-                      <SelectItem value="five">five</SelectItem>
-                      <SelectItem value="six">six</SelectItem>
-                      <SelectItem value="seven">seven</SelectItem>
-                      <SelectItem value="eight">eight</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="gameResultPatti"

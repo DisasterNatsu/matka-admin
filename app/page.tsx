@@ -44,7 +44,7 @@ const LandingPage = () => {
     // try catch
 
     try {
-      const logIn = await Axios.post("/admin/log-in", data);
+      const logIn = await Axios.post("/auth/admin/log-in", data);
 
       const response: LogInResponse = await logIn.data;
 
@@ -75,6 +75,10 @@ const LandingPage = () => {
 
   return (
     <main className="p-4 w-screen h-screen flex flex-col justify-center items-center">
+      <meta
+        name="google-site-verification"
+        content="eCDHq0r6Jf_PnUuw123anZwrRdbrhX4KBp3FJcIkWkY"
+      />
       <h1 className="text-2xl font-bold">
         KolkataFF<span className="text-green-500">.</span>space
       </h1>
