@@ -56,11 +56,11 @@ const SideNav = () => {
 
       <div className="flex items-center gap-x-4">
         <Image
-          src="/assets/logo.png"
+          src="/smartmumbailogo.png"
           alt="Disaster Scans logo"
           width={40}
           height={40}
-          className={`cursor-pointer duration-500 w-auto ${
+          className={`cursor-pointer duration-500 w-auto dark:bg-white py-2 rounded-full ${
             open && "rotate-[360deg]"
           }`}
         />
@@ -69,7 +69,7 @@ const SideNav = () => {
             !open && "scale-0"
           }`}
         >
-          Kolkata <span className="text-green-400">Fatafat</span>
+          Mumbai <span className="text-green-400">Matka</span>
         </h1>
       </div>
 

@@ -14,8 +14,8 @@ export const SideNavData = [
     icon: LuLayoutDashboard,
   },
   {
-    title: "Fatafat",
-    link: "/fatafat",
+    title: "Smart Matka",
+    link: "/smart-matka",
     icon: MdOutlineLibraryBooks,
   },
   {

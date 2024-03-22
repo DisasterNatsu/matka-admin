@@ -58,12 +58,12 @@ const Fatafat = () => {
     // get token
 
     try {
-      const token = Cookies.get("ff-admin-token");
+      const token = Cookies.get("mm-admin-token");
 
       if (!token) throw new Error("No token");
 
       const headers = {
-        "ff-admin-token": token,
+        "mm-admin-token": token,
       };
 
       const data = {
@@ -75,7 +75,7 @@ const Fatafat = () => {
         indexAt: gameIndex,
       };
 
-      const postData = await Axios.post("/post/add-new", data, { headers });
+      const postData = await Axios.post("/post/current", data, { headers });
 
       const response = await postData.data;
 

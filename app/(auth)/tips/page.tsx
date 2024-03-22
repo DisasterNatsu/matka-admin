@@ -28,6 +28,7 @@ const formSchema = z.object({
 
 const Update = () => {
   const [gameIndex, setGameIndex] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,12 +51,12 @@ const Update = () => {
     // get token
 
     try {
-      const token = Cookies.get("ff-admin-token");
+      const token = Cookies.get("mm-admin-token");
 
       if (!token) throw new Error("No token");
 
       const headers = {
-        "ff-admin-token": token,
+        "mm-admin-token": token,
       };
 
       const data = {
@@ -66,11 +67,9 @@ const Update = () => {
         indexAt: gameIndex,
       };
 
-      const postData = await Axios.post("/post/add-tips", data, { headers });
+      const postData = await Axios.post("/post/matka-tips", data, { headers });
 
       const response = await postData.data;
-
-      console.log(response);
 
       toast({
         title: "Tips updated successfully",
@@ -90,6 +89,14 @@ const Update = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleEmojiClick = () => {
+    setInputValue(inputValue + " ✅");
+  };
+
+  const handleCrossEmojiClick = () => {
+    setInputValue(inputValue + " ❌");
   };
 
   return (
@@ -124,7 +131,13 @@ const Update = () => {
                   <FormItem>
                     <FormLabel>Tips</FormLabel>
                     <FormControl>
-                      <Input placeholder="eg: 123" {...field} required />
+                      <Input
+                        placeholder="eg: 123"
+                        {...field}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        required
+                      />
                     </FormControl>
                     <p className="text-xs">
                       Spearate the tip numbers by &apos;,&apos; - eg: 1, 2, 3,
@@ -135,11 +148,21 @@ const Update = () => {
                 )}
               />
 
-              <Button type="submit" className="w-full md:w-60">
-                Submit
-              </Button>
+              <div className="flex gap-2">
+                <Button type="submit" className="w-full md:w-60">
+                  Submit
+                </Button>
+              </div>
             </form>
           </Form>
+          <div className="mt-2 flex space-x-3 md:-mt-10">
+            <Button variant={"outline"} onClick={handleEmojiClick}>
+              ✅
+            </Button>
+            <Button variant={"outline"} onClick={handleCrossEmojiClick}>
+              ❌
+            </Button>
+          </div>
         </div>
       </div>
     </div>

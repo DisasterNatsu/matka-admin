@@ -48,9 +48,11 @@ const LandingPage = () => {
 
       const response: LogInResponse = await logIn.data;
 
+      console.log(response);
+
       // set auth token if there is any error it will trigger the error boundary
 
-      Cookies.set("ff-admin-token", response.authToken, { expires: 3 });
+      Cookies.set("mm-admin-token", response.authToken, { expires: 3 });
 
       // show a toast
 

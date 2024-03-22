@@ -12,9 +12,9 @@ const getCalculatedTips = async (token: string | undefined, date: string) => {
   }
 
   try {
-    const request = await Axios.get(`auth/admin/generated-data/${date}`, {
+    const request = await Axios.get(`/get/generated-tips/${date}`, {
       headers: {
-        "ff-admin-token": queryToken,
+        "mm-admin-token": queryToken,
       },
     });
 
@@ -30,7 +30,7 @@ const getCalculatedTips = async (token: string | undefined, date: string) => {
 const Reports = async () => {
   const cookieStore = cookies();
 
-  const token = cookieStore.get("ff-admin-token")?.value;
+  const token = cookieStore.get("mm-admin-token")?.value;
 
   const date = DateFormatterQuery();
 
