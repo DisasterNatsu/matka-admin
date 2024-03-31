@@ -26,7 +26,7 @@ const formSchema = z.object({
   tips: z.string(),
 });
 
-const Update = () => {
+const PattiTips = () => {
   const [gameIndex, setGameIndex] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -67,7 +67,9 @@ const Update = () => {
         indexAt: gameIndex,
       };
 
-      const postData = await Axios.post("/post/matka-tips", data, { headers });
+      const postData = await Axios.post("/post/matka-patti-tips", data, {
+        headers,
+      });
 
       const response = await postData.data;
 
@@ -101,7 +103,7 @@ const Update = () => {
 
   return (
     <div>
-      <Header title="Smart Matka Tips" />
+      <Header title="Smart Matka Patti Tips" />
       <div className="container">
         <div className="flex flex-col items-center justify-center">
           <div className="flex justify-center items-center gap-3 container my-10 flex-wrap ">
@@ -169,4 +171,4 @@ const Update = () => {
   );
 };
 
-export default Update;
+export default PattiTips;
